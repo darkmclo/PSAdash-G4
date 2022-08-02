@@ -1,5 +1,7 @@
 #!bin/sh
 
+echo "---- INSTALACIÓN DE PSADASH ----"
+echo "================================"
 echo "[Privilegios elevados (Root) requeridos]"
 if [ "$EUID" -ne 0 ]
 then
