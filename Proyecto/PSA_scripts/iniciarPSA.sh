@@ -1,4 +1,11 @@
 #!/bin/bash
+
+if [ "$EUID" -ne 0 ]
+then
+	whiptail --title "PSA" --msgbox "Por favor, ejecute este script con privilegios elevados." 8 78
+        exit
+fi
+
 #Verificando la instalación de postgresql
 psql=$(psql --version)
 
