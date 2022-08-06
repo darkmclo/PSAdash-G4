@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#Validamos que el usuario tenga privilegios de root.
 if [ "$EUID" -ne 0 ]
 then
 	whiptail --title "PSA" --msgbox "Por favor, ejecute este script con privilegios elevados." 8 78
@@ -7,7 +7,7 @@ then
 fi
 
 #Verificando la instalación de postgresql
-psql=$(psql --version)
+psql --version
 
 exitstatus=$?
 #Si esta instalado, iniciamos el servicio
@@ -20,23 +20,40 @@ if [ $exitstatus = 0 ]; then
 	whiptail --title "PSA" --msgbox "Postgresql instalado, se ha iniciado el servicio." 8 78
 		
 else
+#Si no está instalado procedemos a realizar el proceso de instalación.
 	whiptail --title "PSA" --msgbox "Postgresql no se encuentra instalado, se procederá a realizar la instalación." 8 78
 	bash postgresqlW.sh
+
+	#Validamos si la instalación se realizó correctamente.
+	exitstatus=$?	
+	if [ $exitstatus = 0 ]; then
+		whiptail --title "PSA" --msgbox "Se ha instalado Postgresql y se ha iniciado el servicio :P." 8 78
+	else
+		whiptail --title "PSA" --msgbox "Ha ocurrido un problema en la instalación de Postgresql." 8 78
+	fi
 fi
 
 echo "(Exit status was $exitstatus)"
 
-#Verificando la instalación de Grafana
+#Verificando si Grafana ya se encuentra instalado
 grafana=$(rpm -q grafana)
 
+#Si no está instalado procedemos a realizar el proceso de instalación.
 if [[ $grafana == "package grafana is not installed" || $grafana == "el paquete grafana no está instalado" ]]; then
-	echo "Grafana  NO instalado!"
+
 	whiptail --title "PSA" --msgbox "Grafana no se encuentra instalado, se procederá a realizar la instalación." 8 78
 	bash grafana.sh
 
+	#Validamos si la instalación se realizó correctamente.
+	exitstatus=$?	
+	if [ $exitstatus = 0 ]; then
+		whiptail --title "PSA" --msgbox "Se ha instalado Grafana y se ha iniciado el servicio :P." 8 78
+	else
+		whiptail --title "PSA" --msgbox "Ha ocurrido un problema en la instalación de Grafana." 8 78
+	fi
+
 else 
-	echo "Grafana Instalado"
-	
+#Si ya está instalado procedemos a iniciar el servicio.
 	if [[ ! "$(systemctl is-active grafana-server)" == "active" ]]; then
 		$(sudo systemctl start grafana-server)
 	fi
@@ -46,18 +63,28 @@ else
 	fi
 fi
 
-#Verificando la instalación de nodejs
-nodejs=$(node -v)
-echo $nodejs
+#Verificando si nodejs está instalado
+node -v
 
 exitstatus=$?
+#Si ya está instalado procedemos a iniciar el servicio.
 if [ $exitstatus = 0 ]; then
-	node-red
+	node-red &>/dev/null &
 	whiptail --title "PSA" --msgbox "Node-red instalado, se ha iniciado el servicio." 8 78
 			
 else
+#Si no está instalado procedemos a realizar el proceso de instalación.
+
 	whiptail --title "PSA" --msgbox "Node-red no se encuentra instalado, se procederá a realizar la instalación." 8 78
 	bash noderedW.sh
+
+	#Validamos si la instalación se realizó correctamente.
+	exitstatus=$?	
+	if [ $exitstatus = 0 ]; then
+		whiptail --title "PSA" --msgbox "Se ha instalado Node-red y se ha iniciado el servicio :P." 8 78
+	else
+		whiptail --title "PSA" --msgbox "Ha ocurrido un problema en la instalación de Node-red." 8 78
+	fi
 fi
 
 echo "(Exit status was $exitstatus)"
