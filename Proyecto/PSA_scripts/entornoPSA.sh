@@ -1,0 +1,1 @@
+cd /usr/bin/Proyecto/PSA_scripts

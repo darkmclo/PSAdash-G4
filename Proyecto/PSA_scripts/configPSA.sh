@@ -3,6 +3,8 @@
 #echo "Ejecutando configPSA.sh ..."
 #sleep 5
 
+cd /usr/bin/Proyecto/PSA_scripts
+
 if [ "$EUID" -ne 0 ]
 then
 	whiptail --title "PSA" --msgbox "Por favor, ejecute este script con privilegios elevados." 8 78
