@@ -1,16 +1,6 @@
 #!/bin/bash
-echo "[Privilegios elevados (Root) requeridos]"
-if [ "$EUID" -ne 0 ]
-then
-	whiptail --title "PSA Dash" --msgbox "Por favor, ejecute este script con privilegios elevados." 8 78
-	whiptail --title "PSA Dash" --msgbox "Saliendo." 8 78
-        exit
-else
-        echo "[Ejecutando con los privilegios adecuados]"
-
-
 {
-        sudo rpm -qa | grep postgresql11-server
+        sudo rpm -qa | grep postgresql
         status=$?
 
         echo -e "XXX\n0\nIniciando proceso de instalacion... \nXXX"
@@ -25,14 +15,15 @@ else
         else
                 echo -e "XXX\n10\nPostgresql no se encuentra instalado. \nXXX"
                 sleep 1
-                echo -e "XXX\n20\n======== INSTALANDO Postgresql [LTS] ======== \nXXX"
+                echo -e "XXX\n20\n======== Descargando Postgresql [LTS] ======== \nXXX"
                 sleep 2
-               
-       		 yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-                yum install postgresql11-server -y
- 		/usr/pgsql-11/bin/postgresql-11-setup initdb
-		systemctl enable postgresql-11
-   	        systemctl start postgresql-11
+                echo -e "XXX\n25\n======== INSTALANDO Postgresql [LTS] ======== \nXXX"
+                sleep 1
+		sudo yum -y install postgresql-server postgresql-contrib
+       		echo -e "XXX\n25\n======== INSTALANDO Postgresql [LTS] ======== \nXXX"
+                sleep 1
+		sudo systemctl start postgresql
+		sudo systemctl enable postgresql
 
 
         fi
@@ -40,18 +31,16 @@ else
         echo -e "XXX\n50\nVerificando instalacion de Postgresql... \nXXX"
                sleep 1
 
-        package="postgresql11-server"
+        package="postgresql-server"
         if [ `npm list -g | grep -c $package` -eq 0 ]; then
-                echo -e "XXX\n70\nPostgresql no está instalado. \nXXX"
+                echo -e "XXX\n70\nPostgresql no esta instalado. \nXXX"
                 sleep 1
-                echo -e "XXX\n70\nSe procederá a realizar el proceso de instalación. \nXXX"
+                echo -e "XXX\n70\nSe procedera a realizar el proceso de instalaciÃ³n. \nXXX"
                 sleep 1
                 echo "XXX\n70\n=========== INSTALANDO Postgresql ===========  \nXXX"
                 sleep 1
-                yum install postgresql11-server -y
-		/usr/pgsql-11/bin/postgresql-11-setup initdb
-                systemctl enable postgresql-11
-   	        systemctl start postgresql-11
+                sudo yum -y install postgresql-server postgresql-contrib
+		sudo systemctl start postgresql
                 echo "XXX\n90\n=========== INSTALANDO Postgresql ===========  \nXXX"
                 sleep 1
         else
@@ -67,5 +56,6 @@ else
 
 } |whiptail --title "Instalacion de Postgresql" --gauge "Por favor espere..." 6 60 0
 
-fi
+
+
 
