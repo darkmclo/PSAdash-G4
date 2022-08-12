@@ -13,7 +13,8 @@ CHOICE=$(
 whiptail --title "Seleccione una opción" --menu "Choose an option" 16 80 9 \
        "1" "Lanzar servidor PSA" \
        "2" "Configurar servidor PSA" \
-       "3" "Salir" 3>&1 1>&2 2>&3
+       "3" "Configurar servidor PSA" \
+       "4" "Salir" 3>&1 1>&2 2>&3
 )
 
 case $CHOICE in
@@ -24,8 +25,12 @@ case $CHOICE in
 2) 
 	sudo bash PSA_scripts/configPSA.sh
 ;;
+        
+3)
+        sudo bash desinstalarPSA.sh
+;;
 
-3) exit
+4) exit
 ;;
 
 esac
