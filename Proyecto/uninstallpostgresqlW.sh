@@ -9,9 +9,8 @@
         if [ $status -eq 0 ]; then
                 echo -e "XXX\n10\nDesinstalando PostgreSQl. \nXXX"
                 sleep 1
-                sudo yum --purge remove postgresql
-                sudo yum purge postgresql*
-                sudo yum --purge remove postgresql postgresql-doc postgresql-common
+                sudo yum remove postgresql -y
+                sudo yum remove postgresql postgresql-doc postgresql-common -y
 
                 echo -e "XXX\n100\nEliminando archivos dependientes\nXXX"
                 sleep 2
