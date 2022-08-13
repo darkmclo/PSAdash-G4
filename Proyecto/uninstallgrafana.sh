@@ -4,7 +4,7 @@
         sleep 2
         sudo rmdir /etc/yum.repos.d/grafana.repo
         echo -e "XXX\n75\n============== DESINSTALANDO GRAFANA (OSS) ============== \nXXX"
-        sudo yum purge --auto-remove grafana -y
+        sudo yum purge --auto-remove grafana
         sleep 1
         echo -e "XXX\n100\n============= PROCESO FINALIZADO =============== \nXXX"
         sleep 2

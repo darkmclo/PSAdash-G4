@@ -28,7 +28,6 @@
 	if [ $status -eq 0 ]; then
 		echo -e "XXX\n20\n======== DESINSTALANDO NODEJS [LTS] ======== \nXXX"
 		sleep 2
-		sudo curl -fsSL https://rpm.nodesource.com/setup_lts.x | sudo bash -
 		sudo yum remove nodejs -y
 
 	else
