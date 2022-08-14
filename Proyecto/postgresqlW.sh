@@ -55,29 +55,34 @@
         #Creacion de base dedatos y su tabla
         echo -e "XXX\n80\nCreando base de datos PSAII \nXXX"
         sleep 1
-        sudo -iu postgres psql -c 'drop database if exists PSAII;'
+        sudo -iu postgres psql -c 'drop database if exists ProyectoPSA2;'
         sudo -iu postgres psql -c 'create database PSAII;'
 
-        echo -e "XXX\n90\nCreando tabla ESTADO \nXXX"
+        echo -e "XXX\n90\nCreando tabla Clase \nXXX"
         sleep 1
         sudo -iu postgres psql -d psaii -c '
-        CREATE TABLE ESTADO
-        (uptime char(100) NULL, 
-        ramlibre char(100) NULL, 
-        ramusada char(100) NULL, 
-        ramtotal char(100) NULL, 
-        discolibre char(100) NULL, 
-        discousado char(100) NULL, 
-        discototal char(100) NULL, 
-        cpu char(100) NULL, 
-        ipwlan char(100) NULL, 
-        interfaztx char(100) NULL, 
-        interfazrx char(100) NULL, 
-        grafanastatus char(100) NULL, 
-        fecha timestamp NULL DEFAULT NOW());'
+        CREATE TABLE clase
+        (server char(100) NULL, 
+        uptime integer NULL, 
+        ramlibre double precision, 
+        ramusada double precision, 
+        ramtotal double precision, 
+        discolibre double precision, 
+        discousado double precision, 
+        discototal double precision, 
+        cpu double precision, 
+        ipwlan text, 
+        interfaztx integer, 
+        interfazrx integer, 
+        grafanastatus integer, 
+        fecha timestamp without time zone;'
 
         echo -e "XXX\n100\nProceso finalizado \nXXX"
         sleep 1
+
+
+
+
 
 
 } |whiptail --title "Instalación de Postgresql" --gauge "Por favor espere..." 6 60 0
