@@ -3,10 +3,10 @@
         sudo rpm -qa | grep postgresql
         status=$?
 
-        echo -e "XXX\n0\nIniciando proceso de instalacion... \nXXX"
+        echo -e "XXX\n0\nIniciando proceso de instalación... \nXXX"
         sleep 2
 
-        echo -e "XXX\n0\Verificando instalacion de Nodejs... \nXXX"
+        echo -e "XXX\n0\Verificando instalación de Nodejs... \nXXX"
         sleep 1
 
         if [ $status -eq 0 ]; then
@@ -28,14 +28,14 @@
 
         fi
 
-        echo -e "XXX\n50\nVerificando instalacion de Postgresql... \nXXX"
+        echo -e "XXX\n50\nVerificando instalación de Postgresql... \nXXX"
                sleep 1
 
         package="postgresql-server"
         if [ `npm list -g | grep -c $package` -eq 0 ]; then
                 echo -e "XXX\n70\nPostgresql no esta instalado. \nXXX"
                 sleep 1
-                echo -e "XXX\n70\nSe procedera a realizar el proceso de instalaciÃ³n. \nXXX"
+                echo -e "XXX\n70\nSe procederá a realizar el proceso de instalación. \nXXX"
                 sleep 1
                 echo "XXX\n70\n=========== INSTALANDO Postgresql ===========  \nXXX"
                 sleep 1
@@ -50,11 +50,37 @@
                 sleep 1
         fi
 
-                echo -e "XXX\n100\nProceso finalizado \nXXX"
-                sleep 2
 
 
-} |whiptail --title "Instalacion de Postgresql" --gauge "Por favor espere..." 6 60 0
+        #Creacion de base dedatos y su tabla
+        echo -e "XXX\n80\nCreando base de datos PSAII \nXXX"
+        sleep 1
+        sudo -iu postgres psql -c 'drop database if exists PSAII;'
+        sudo -iu postgres psql -c 'create database PSAII;'
+
+        echo -e "XXX\n90\nCreando tabla ESTADO \nXXX"
+        sleep 1
+        sudo -iu postgres psql -d psaii -c '
+        CREATE TABLE ESTADO
+        (uptime char(100) NULL, 
+        ramlibre char(100) NULL, 
+        ramusada char(100) NULL, 
+        ramtotal char(100) NULL, 
+        discolibre char(100) NULL, 
+        discousado char(100) NULL, 
+        discototal char(100) NULL, 
+        cpu char(100) NULL, 
+        ipwlan char(100) NULL, 
+        interfaztx char(100) NULL, 
+        interfazrx char(100) NULL, 
+        grafanastatus char(100) NULL, 
+        fecha timestamp NULL DEFAULT NOW());'
+
+        echo -e "XXX\n100\nProceso finalizado \nXXX"
+        sleep 1
+
+
+} |whiptail --title "Instalación de Postgresql" --gauge "Por favor espere..." 6 60 0
 
 
 
