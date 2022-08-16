@@ -4,7 +4,7 @@ cd /usr/bin/
 if [ "$EUID" -ne 0 ]
 then
 	whiptail --title "PSA Dash" --msgbox "Por favor, ejecute este script con privilegios elevados." 8 78
-        exit
+       exit
 fi
 
 while [ 1 ]
@@ -23,8 +23,8 @@ case $CHOICE in
 ;;
 
 2) 
-	whiptail --title "PSA" --msgbox "Se va a desinstalar los programas" 8 78
-
+	whiptail --title "PSA" --msgbox "Se desinstalarán todos los programas en caso de estar instalados: Node-RED, PostgreSQL, Grafana, y todas sus dependencias. (Aquí se tiene que ejecutar el script desinstalarPSA.sh)" 8 78
+	sudo sh Proyecto/desinstalarPSA.sh
 ;;
 
 3) exit
